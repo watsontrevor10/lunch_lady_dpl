@@ -17,19 +17,12 @@ class MainMenu
     ] 
   end
 
-  def side_dishes
-    @side_dishes = [
-      { name: "ice cream", calories: "100", price: 3 },
-      { name: "brazilian cheese balls", calories: "200", price: 4 },
-      { name: "fries", calories: "200", price: 2 },
-    ]
-  end
-
 end
 
 
 class LunchLadyApp < MainMenu
 attr_accessor :lunch_menu, :main_root_menu
+
 
 def initialize
   @shopping_cart = []
@@ -37,6 +30,7 @@ def initialize
   @wallet = 10
   @money_copy = @wallet
 end
+
 
   def main_root_menu
 
@@ -50,6 +44,7 @@ end
     puts "4) View Order"
     puts "5) Submit Order"
     puts "6) Exit"
+    puts ""
 
     user_selection = gets.strip.upcase
 
@@ -73,6 +68,7 @@ end
 
   end
 
+
   def lunch_menu
     puts "-- Lunch Lady Menu --"
     puts ""
@@ -84,11 +80,6 @@ end
     end
 
     puts ""
-    #puts "-- Side Dishes --"
-
-    #side_dishes.each_with_index do |side_dish, index|
-    #  puts "#{index + 1}) #{side_dish[:name]} - $#{side_dish[:price]}".upcase
-    # end
     puts "N) View Nutritional Facts".upcase
   
     puts ""
@@ -98,40 +89,23 @@ end
     
     @menu_choice = gets.strip.upcase
 
-    # if @menu_choice.include? "Q" or "E"
-    #   main_root_menu
-    # elsif @menu_choice.is_a? Integer
-    #   @shopping_cart << @main_dishes[@menu_choice]
-    #   puts ""
-    #   puts "Your Shopping cart now contains:"
-    #   puts @shopping_cart
-    #   puts "" 
-    #   add_more_items
-    # else
-    #   puts "Not a valid choice, please try again"
-    #   main_root_menu
-    # end
     case @menu_choice
     when "1", "2", "3", "4", "5", "6", "7", "8", "9"
       @shopping_cart << @main_dishes[@menu_choice.to_i - 1]
       puts ""
       puts "Your Shopping cart now contains:"
       puts ""
-      
       @shopping_cart.each_with_index do |cart, index|
-      puts "#{cart[:name]} - $#{cart[:price]}".upcase
+        puts "#{cart[:name]} - $#{cart[:price]}".upcase
       end
-      
       puts ""
-      
       @total_due = @shopping_cart.inject(0) {|sum, hash| sum + hash[:price]}
       puts "Total due: $#{@total_due}"
       puts "" 
-      
       add_more_items 
     when "N", "Nutrition".upcase
       puts "-- Nutrition Facts --".upcase
-        puts ""
+      puts ""
       @main_dishes.each_with_index do |dish, index|
         puts "#{dish[:name]} - #{dish[:calories]} calories"
       end
@@ -146,13 +120,14 @@ end
     end
   end
 
+
   def add_more_items
     puts ""
     puts "Would you like to add more menu items?"
     print ">"
 
     more_items_choice = gets.strip.upcase
-
+    
     if more_items_choice.include? "Y"
       lunch_menu
     else
@@ -160,23 +135,26 @@ end
     end
   end
 
+
   def view_order
     puts ""
     puts "Your order now contains:"
     puts ""
 
     @shopping_cart.each_with_index do |cart, index|
-    puts "#{cart[:name]} - $#{cart[:price]}"
-     end
+      puts "#{cart[:name]} - $#{cart[:price]}".upcase
+    end
 
     puts ""
 
     @total_due = @shopping_cart.inject(0) {|sum, hash| sum +hash[:price]}
+    
     puts "Total due: $#{@total_due}"
     puts "" 
 
     main_root_menu
   end
+
 
   def wallet_balance
     puts ""
@@ -185,6 +163,7 @@ end
 
     main_root_menu
   end
+
 
   def add_to_wallet
     puts "How much money would you like to deposit into your Wallet?"
@@ -199,20 +178,18 @@ end
     main_root_menu
   end
 
+
   def submit_order
     if @money_copy >= @total_due
-      @money_copy = @money_copy -= @total_due
-      
+      @money_copy = @money_copy -= @total_due 
       puts ""
       puts "Your order has been submitted"
       puts ""
       puts "You were charged a total of $#{@total_due}"
       puts ""
-      
       @shopping_cart.clear
       puts "Your Wallet balance is now: $#{@money_copy}"
       puts ""
-      
       main_root_menu
     else
       puts "You do not have enough money in your Wallet to purchase this meal, you chump!"
@@ -220,7 +197,6 @@ end
       main_root_menu
     end
   end
-
 
 end
 
